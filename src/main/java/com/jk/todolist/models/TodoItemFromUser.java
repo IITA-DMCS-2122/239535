@@ -10,11 +10,8 @@ import lombok.NoArgsConstructor;
 public class TodoItemFromUser {
 
     private String uuid;
-
     private String title;
-
     private Integer priority;
-
     private boolean done;
 
 }

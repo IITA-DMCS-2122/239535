@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @AllArgsConstructor
 public class TodoItemController {
@@ -37,6 +36,11 @@ public class TodoItemController {
     @PutMapping("/update")
     public void updateItem(@RequestBody TodoItemFromUser todoItem) {
         todoItemService.update(todoItem);
+    }
+
+    @GetMapping("/search/{title}")
+    public List<TodoItemFromUser> searchItemsElastic(@PathVariable String title) {
+        return todoItemService.search(title);
     }
 
 }

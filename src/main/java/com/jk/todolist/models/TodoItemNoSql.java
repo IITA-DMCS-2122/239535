@@ -19,10 +19,7 @@ public class TodoItemNoSql {
     private Integer id;
 
     private String uuid;
-
     private String title;
-
     private Integer priority;
-
     private boolean done;
 }
