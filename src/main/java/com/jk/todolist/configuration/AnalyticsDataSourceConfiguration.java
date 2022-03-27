@@ -30,7 +30,7 @@ public class AnalyticsDataSourceConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(EntityManagerFactoryBuilder builder) {
         return builder
             .dataSource(dataSource())
-            .packages("com.jk.todolist.models")
+            .packages("com.jk.todolist.models.analytics")
             .properties(Map.of(
                 "hibernate.hbm2ddl.auto", "update",
                 "hibernate.physical_naming_strategy", "org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy"

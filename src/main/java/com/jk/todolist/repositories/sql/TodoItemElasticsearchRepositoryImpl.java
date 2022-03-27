@@ -1,6 +1,6 @@
 package com.jk.todolist.repositories.sql;
 
-import com.jk.todolist.models.TodoItemSql;
+import com.jk.todolist.models.sql.TodoItemSql;
 import org.hibernate.search.mapper.orm.Search;
 
 import javax.persistence.EntityManager;

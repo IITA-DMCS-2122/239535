@@ -2,7 +2,8 @@ package com.jk.todolist.services;
 
 import com.jk.todolist.models.TodoItemFromUser;
 import com.jk.todolist.models.TodoItemNoSql;
-import com.jk.todolist.models.TodoItemSql;
+import com.jk.todolist.models.analytics.TodoItemAnalytics;
+import com.jk.todolist.models.sql.TodoItemSql;
 import com.jk.todolist.repositories.TodoItemNoSqlRepository;
 import com.jk.todolist.repositories.analytics.TodoItemAnalyticsRepository;
 import com.jk.todolist.repositories.sql.TodoItemSqlRepository;
@@ -49,8 +50,16 @@ public class TodoItemService {
             .priority(itemFromUser.getPriority())
             .done(itemFromUser.isDone())
             .build();
-        itemSqlRepository.save(todoItemSql);
-        itemAnalyticsRepository.save(todoItemSql);
+        itemSqlRepository.saveAndFlush(todoItemSql);
+        itemAnalyticsRepository.save(
+            TodoItemAnalytics
+                .builder()
+                .id(todoItemSql.getId())
+                .uuid(todoItemSql.getUuid())
+                .title(todoItemSql.getTitle())
+                .priority(todoItemSql.getPriority())
+                .done(todoItemSql.isDone())
+                .build());
         itemNoSqlRepository.save(
             TodoItemNoSql
                 .builder()
