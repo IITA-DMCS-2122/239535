@@ -1,6 +1,7 @@
 package com.jk.todolist.controllers;
 
 import com.jk.todolist.models.TodoItemFromUser;
+import com.jk.todolist.services.TodoItemEventService;
 import com.jk.todolist.services.TodoItemService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import java.util.List;
 public class TodoItemController {
 
     private final TodoItemService todoItemService;
+    private final TodoItemEventService todoItemEventService;
 
     @GetMapping("/get/{uuid}")
     public TodoItemFromUser getItem(@PathVariable String uuid) {
@@ -28,6 +30,11 @@ public class TodoItemController {
         todoItemService.add(todoItem);
     }
 
+    @PostMapping("/add/event")
+    public void addEvent(@RequestBody TodoItemFromUser todoItem) {
+        todoItemEventService.saveEvent(todoItem);
+    }
+
     @DeleteMapping("/delete/{uuid}")
     public void deleteItem(@PathVariable String uuid) {
         todoItemService.deleteByUuid(uuid);
@@ -41,6 +48,11 @@ public class TodoItemController {
     @GetMapping("/search/{title}")
     public List<TodoItemFromUser> searchItemsElastic(@PathVariable String title) {
         return todoItemService.search(title);
+    }
+
+    @GetMapping("/count/events")
+    public long countEvents() {
+        return todoItemEventService.countEvents();
     }
 
 }

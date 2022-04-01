@@ -1,8 +1,8 @@
 package com.jk.todolist.services;
 
+import com.jk.todolist.Converter;
 import com.jk.todolist.models.TodoItemFromUser;
 import com.jk.todolist.models.TodoItemNoSql;
-import com.jk.todolist.models.analytics.TodoItemAnalytics;
 import com.jk.todolist.models.sql.TodoItemSql;
 import com.jk.todolist.repositories.TodoItemNoSqlRepository;
 import com.jk.todolist.repositories.analytics.TodoItemAnalyticsRepository;
@@ -43,32 +43,10 @@ public class TodoItemService {
 
     public void add(TodoItemFromUser itemFromUser) {
         itemFromUser.setUuid(UUID.randomUUID().toString());
-        TodoItemSql todoItemSql = TodoItemSql
-            .builder()
-            .uuid(itemFromUser.getUuid())
-            .title(itemFromUser.getTitle())
-            .priority(itemFromUser.getPriority())
-            .done(itemFromUser.isDone())
-            .build();
+        TodoItemSql todoItemSql = Converter.fromUserToSql(itemFromUser);
         itemSqlRepository.saveAndFlush(todoItemSql);
-        itemAnalyticsRepository.save(
-            TodoItemAnalytics
-                .builder()
-                .id(todoItemSql.getId())
-                .uuid(todoItemSql.getUuid())
-                .title(todoItemSql.getTitle())
-                .priority(todoItemSql.getPriority())
-                .done(todoItemSql.isDone())
-                .build());
-        itemNoSqlRepository.save(
-            TodoItemNoSql
-                .builder()
-                .id(todoItemSql.getId())
-                .uuid(todoItemSql.getUuid())
-                .title(todoItemSql.getTitle())
-                .priority(todoItemSql.getPriority())
-                .done(todoItemSql.isDone())
-                .build());
+        itemAnalyticsRepository.save(Converter.fromSqlToAnalytics(todoItemSql));
+        itemNoSqlRepository.save(Converter.fromSqlToNoSql(todoItemSql));
     }
 
     public void deleteByUuid(String uuid) {
