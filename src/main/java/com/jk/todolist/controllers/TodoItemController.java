@@ -30,11 +30,6 @@ public class TodoItemController {
         todoItemService.add(todoItem);
     }
 
-    @PostMapping("/add/event")
-    public void addEvent(@RequestBody TodoItemFromUser todoItem) {
-        todoItemEventService.saveEvent(todoItem);
-    }
-
     @DeleteMapping("/delete/{uuid}")
     public void deleteItem(@PathVariable String uuid) {
         todoItemService.deleteByUuid(uuid);
@@ -48,6 +43,11 @@ public class TodoItemController {
     @GetMapping("/search/{title}")
     public List<TodoItemFromUser> searchItemsElastic(@PathVariable String title) {
         return todoItemService.search(title);
+    }
+
+    @PostMapping("/add/event")
+    public void addEvent(@RequestBody TodoItemFromUser todoItem) {
+        todoItemEventService.saveEvent(todoItem);
     }
 
     @GetMapping("/count/events")

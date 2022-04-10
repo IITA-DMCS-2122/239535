@@ -1,0 +1,53 @@
+// wyświetlenie dokumentów z priorytetem 8
+[{
+    $match: {
+        priority: 8
+    }
+}]
+
+
+
+// wyświetlenie tylko id, tytułu i priorytetu każdego dokumentu
+[{
+    $project: {
+        priority: 1,
+        title: 1
+    }
+}]
+
+
+
+// grupowanie po priority - wyniki wyświetlane w losowej kolejności + sortowanie malejąco po ilości wystąpień
+[{
+    $group: {
+        _id: "$priority",
+        item_count: {
+            $count: {}
+        }
+    }
+}, {
+    $sort: {
+        item_count: -1
+    }
+}]
+
+// grupowanie po priority z sortowaniem - wyniki wyświetlane od największej ilości wystąpień
+[{
+    $sortByCount: "$priority"
+}]
+
+
+
+// dodanie pola do wszystkich dokumentów i ustawienie jego wartości
+[{
+    $addFields: {
+        description: "test"
+    }
+}]
+
+// dodanie pola do wszystkich dokumentów i ustawienie jego wartości
+[{
+    $set: {
+        description2: "test2"
+    }
+}]
